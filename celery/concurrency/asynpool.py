@@ -410,9 +410,13 @@ class AsynPool(_pool.Pool):
         worker.dead = False
         return worker
 
+    def __del__(self):
+        logger.debug(f'AsynPool.__del__ self:{id(self)}')
+
     def __init__(self, processes=None, synack=False,
                  sched_strategy=None, proc_alive_timeout=None,
                  *args, **kwargs):
+        logger.debug(f'AsynPool.__init__ self:{id(self)}')
         self.sched_strategy = SCHED_STRATEGIES.get(sched_strategy,
                                                    sched_strategy)
         processes = self.cpu_count() if processes is None else processes
@@ -504,6 +508,7 @@ class AsynPool(_pool.Pool):
 
     def register_with_event_loop(self, hub):
         """Register the async pool with the current event loop."""
+        logger.debug(f'AsynPool.register_with_event_loop')
         self._result_handler.register_with_event_loop(hub)
         self.handle_result_event = self._result_handler.handle_event
         self._create_timelimit_handlers(hub)

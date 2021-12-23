@@ -217,7 +217,7 @@ class Logging:
         if self._is_configured(logger):
             return logger
         handler = self._detect_handler(logfile)
-        handler.setFormatter(formatter(format, use_color=colorize))
+        handler.setFormatter(formatter('', use_color=colorize))
         logger.addHandler(handler)
         return logger
 

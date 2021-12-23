@@ -347,6 +347,7 @@ class Consumer:
     def on_connection_error_after_connected(self, exc):
         warn(CONNECTION_RETRY, exc_info=True)
         try:
+            debug('Consumer.on_connection_error_after_connected')
             self.connection.collect()
         except Exception:  # pylint: disable=broad-except
             pass
@@ -419,6 +420,7 @@ class Consumer:
         Retries establishing the connection if the
         :setting:`broker_connection_retry` setting is enabled
         """
+        debug(f'Consumer.connect hub:{self.hub}')
         conn = self.connection_for_read(heartbeat=self.amqheartbeat)
         if self.hub:
             conn.transport.register_with_event_loop(conn.connection, self.hub)

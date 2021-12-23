@@ -545,9 +545,11 @@ class RedisBackend(BaseKeyValueStoreBackend, AsyncBackendMixin):
                 )
 
     def _create_client(self, **params):
-        return self._get_client()(
+        logger.debug('celery RedisBackend._create_client')
+        client = self._get_client()(
             connection_pool=self._get_pool(**params),
         )
+        return client
 
     def _get_client(self):
         return self.redis.StrictRedis
